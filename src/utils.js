@@ -9,16 +9,22 @@ export const searchByName = (formattedList, searchTerm) => {
 };
 
 export const searchByHeight = (formattedList, searchTerm) => {
-  const filteredData = formattedList.filter((item) =>
-    item.height.imperial.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredData = formattedList.filter((item) => {
+    const h = item.height.imperial.split("-");
+    const h1 = parseInt(h?.[0]);
+    const h2 = parseInt(h?.[1]);
+    if (searchTerm >= h1 && searchTerm <= h2) return item;
+  });
   return filteredData;
 };
 
 export const searchByLifeSpan = (formattedList, searchTerm) => {
-  const filteredData = formattedList.filter((item) =>
-    item.lifeSpan.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredData = formattedList.filter((item) => {
+    const h = item.lifeSpan.split(" ");
+    const h1 = parseInt(h?.[0]);
+    const h2 = parseInt(h?.[2]);
+    if (searchTerm >= h1 && searchTerm <= h2) return item;
+  });
   return filteredData;
 };
 
