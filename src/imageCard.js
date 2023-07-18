@@ -16,7 +16,6 @@ const ImageCard = (props) => {
     temperament,
     imageUrl,
   } = props;
-
   return (
     <Card sx={{ maxWidth: 200 }}>
       <CardActionArea>
