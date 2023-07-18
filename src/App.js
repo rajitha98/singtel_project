@@ -10,7 +10,8 @@ import { makeStyles } from "@mui/styles";
 import ImageCard from "./imageCard";
 import { getApiResponse } from "./utils";
 import Alert from "@mui/material/Alert";
-import MuiAlert from "@mui/material/Alert";
+
+import Loading from "./assets/loading.svg";
 
 const App = () => {
   const classes = useStyles();
@@ -18,6 +19,7 @@ const App = () => {
   const [sortType, setSortType] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [showError, setShowError] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (event) => {
     setSortType(event.target.value);
@@ -26,14 +28,17 @@ const App = () => {
 
   const callAPI = (res) => {
     setDogList(res);
+    setLoading(false);
   };
 
   useEffect(() => {
     const delayDebounceFn =
-      setShowError &&
+      !showError &&
       setTimeout(() => {
         getApiResponse(sortType, searchTerm, callAPI);
       }, 1000);
+
+    !showError && searchTerm && setLoading(true);
 
     return () => clearTimeout(delayDebounceFn);
   }, [searchTerm]);
@@ -71,9 +76,9 @@ const App = () => {
         />
       </div>
       <ImageRow dogList={dogList} />
+      {loading && <img alt="" width={50} height={50} src={Loading} />}
       {showError && (
         <Alert data-testid="show-error-alert" severity="error">
-          {" "}
           Please select the sort type!
         </Alert>
       )}
